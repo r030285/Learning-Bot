@@ -1,0 +1,39 @@
+<script type="text/javascript">
+  var recognition = new webkitSpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+
+  recognition.onstart = function() { console.log("Start");}
+  recognition.onresult = function(event) {
+	console.log(event)
+      var interim_transcript = '';
+      var final_transcript ='';
+
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        final_transcript += event.results[i][0].transcript;
+		console.log(final_transcript);
+      } else {
+        interim_transcript += event.results[i][0].transcript;
+		console.log(interim_transcript);
+      }
+    }
+    //final_transcript = capitalize(final_transcript);
+    //final_span.innerHTML = linebreak(final_transcript);
+    textValue.innerHTML = final_transcript;
+
+	}
+  recognition.onerror = function(event) {console.log("error", event); }
+  recognition.onend = function() { console.log("end");}
+
+  function start(){
+	recognition.lang = "EN"
+	recognition.start();
+  }
+  </script>
+
+  <form>
+    <div id="textValue">
+	</div>
+    <input type="button" value="Click to Speak" onclick="start();">
+  </form>
